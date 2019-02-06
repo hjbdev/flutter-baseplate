@@ -23,7 +23,7 @@ class bpCol extends StatelessWidget {
   double gutter = 0.0;
   int colWidth = 0;
 
-  bpCol({this.w360, this.w540, this.w720, this.w1024, this.w1200, this.w1500, this.w2000, this.w2500, this.child, this.colCount, this.gutter});
+  bpCol({this.w360, this.w540, this.w720, this.w1024, this.w1200, this.w1500, this.w2000, this.w2500, this.child});
 
   @override build(BuildContext context){
     // calculate col width based on screen width
@@ -156,7 +156,7 @@ class Baseplate {
     return (screenWidth - padding) * fraction;
   }
 
-  static Widget col({w360, w540, w720, w1024, w1200, w1500, w2000, w2500, Widget child, padding: 0, int colCount, double gutter}) {
+  static Widget col({w360, w540, w720, w1024, w1200, w1500, w2000, w2500, Widget child, padding: 0}) {
     return bpCol(
         w360: w360,
         w540: w540,
@@ -167,8 +167,6 @@ class Baseplate {
         w2000: w2000,
         w2500: w2500,
         child: child,
-        colCount: colCount,
-        gutter: gutter
     );
   }
 
