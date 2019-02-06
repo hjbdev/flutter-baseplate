@@ -1,8 +1,8 @@
 name: baseplate
 description: A responsive frontend material framework designed to emulate the behaviour of Bootstrap on web.
-version: 0.0.1
-author: Harry - Senses Web
-homepage: https://senses.co.uk/
+version: 0.0.2
+author: Harry <harry@senses.co.uk>
+homepage: https://github.com/HJBWeb/flutter-baseplate
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
