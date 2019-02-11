@@ -22,21 +22,36 @@ class bpCol extends StatelessWidget {
   int colCount;
   double gutter = 0.0;
   int colWidth = 0;
+  double leftPadding = 0;
+  double rightPadding = 0;
 
-  bpCol({this.w360, this.w540, this.w720, this.w1024, this.w1200, this.w1500, this.w2000, this.w2500, this.child});
+  bpCol({this.w360, this.w540, this.w720, this.w1024, this.w1200, this.w1500, this.w2000, this.w2500, this.child, this.colCount, this.gutter});
 
-  @override build(BuildContext context){
+  @override build(BuildContext context) {
     // calculate col width based on screen width
-    colWidth = Baseplate.calculateColWidth(context, w360, w540, w720, w1024, w1200, w1500, w2000, w2500);
+    colWidth = Baseplate.calculateColWidth(
+        context,
+        w360,
+        w540,
+        w720,
+        w1024,
+        w1200,
+        w1500,
+        w2000,
+        w2500);
 
     // calculate padding
-    int gutterCount = 2 + (colCount - 1);
-    double totalGutter = gutterCount * gutter;
-    double width = Baseplate.calculateWidth(context, colWidth, totalGutter);
+//    int gutterCount = 2 + (colCount - 1);
+//    double totalGutter = gutterCount * gutter;
+    double width = Baseplate.calculateWidth(context, colWidth);
 
-    return Container(
-        width: width,
-        child: child
+    return FractionallySizedBox(
+        widthFactor: width,
+        child: Container(
+          child: Padding(
+              padding: EdgeInsets.only(left: leftPadding, right: rightPadding),
+              child: child
+          ),)
     );
   }
 
@@ -45,7 +60,24 @@ class bpCol extends StatelessWidget {
   }
 
   getColWidth(context) {
-    return Baseplate.calculateColWidth(context, w360, w540, w720, w1024, w1200, w1500, w2000, w2500);
+    return Baseplate.calculateColWidth(
+        context,
+        w360,
+        w540,
+        w720,
+        w1024,
+        w1200,
+        w1500,
+        w2000,
+        w2500);
+  }
+
+  setRightPadding(double right) {
+    rightPadding = right;
+  }
+
+  setLeftPadding(double left){
+    leftPadding = left;
   }
 
   setGutter(double theGutter) {
@@ -68,15 +100,44 @@ class bpRow extends StatelessWidget {
     //
     Map<int, int> rowColCounts = new Map<int, int>();
 
-    for(var i = 0; i < children.length; i++) {
-      var col = children[i];
+    children.forEach((col) {
+      // if the total count is a multiple of 12 (or 0) BEFORE the column width is added, it is at the start of the row
+      // if there is only 1 child, the padding needs to be on both sides.
+      if (children.length > 1) {
+        if (colCount % 12 == 0 || colCount == 0) {
+          col.setLeftPadding(gutter);
+        } else {
+          col.setLeftPadding(gutter / 2);
+        }
+      }
+
+      var initialColCount = colCount;
       colCount += col.getColWidth(context);
+
+      // if the total count is a multiple of 12 AFTER the column width is added, it is at the END of the row.
+      if (children.length > 1) {
+        if (colCount % 12 == 0) {
+          col.setRightPadding(gutter);
+        } else {
+          col.setRightPadding(gutter / 2);
+        }
+      }
+
+      if (children.length == 1) {
+        col.setLeftPadding(gutter);
+        col.setRightPadding(gutter);
+      }
+
+      if (children.length != 1 && colCount % 12 != 0 && initialColCount != 0) {
+        col.setLeftPadding(gutter / 2);
+        col.setRightPadding(gutter / 2);
+      }
 
       // the row it's on
       int whatRow = (colCount / 12).floor();
 
       // if it's a number with no remainder, then it's on the row below
-      if(colCount % 12 == 0) {
+      if (colCount % 12 == 0) {
         whatRow = whatRow - 1;
       }
 
@@ -94,16 +155,18 @@ class bpRow extends StatelessWidget {
       // loop through all the children /
       // work out which row they are on /
       // count how many are on each row /
-    }
+
+
+    });
 
     colCount = 0;
-    for(var i = 0; i < children.length; i++) {
+    for (var i = 0; i < children.length; i++) {
       var col = children[i];
       colCount += col.getColWidth(context);
 
       int whatRow = (colCount / 12).floor();
 
-      if(colCount % 12 == 0) {
+      if (colCount % 12 == 0) {
         whatRow = whatRow - 1;
       }
 
@@ -112,15 +175,14 @@ class bpRow extends StatelessWidget {
     }
 
 
-
-
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: gutter),
-        width: MediaQuery.of(context).size.width,
-        child: Wrap(
-          spacing: gutter,
-          runSpacing: runSpacing,
-          children: children,
+        child: FractionallySizedBox(
+            widthFactor: 1,
+            child: Wrap(
+//              spacing: gutter,
+              runSpacing: runSpacing,
+              children: children,
+            )
         )
     );
   }
@@ -129,21 +191,45 @@ class bpRow extends StatelessWidget {
 class Baseplate {
 
   static calculateColWidth(context, w360, w540, w720, w1024, w1200, w1500, w2000, w2500) {
-    if (w360 != null && MediaQuery.of(context).size.width <= 360) {
+    if (w360 != null && MediaQuery
+        .of(context)
+        .size
+        .width <= 360) {
       return w360;
-    } else if (w540 != null && MediaQuery.of(context).size.width <= 540) {
+    } else if (w540 != null && MediaQuery
+        .of(context)
+        .size
+        .width <= 540) {
       return w540;
-    } else if (w720 != null && MediaQuery.of(context).size.width <= 720) {
+    } else if (w720 != null && MediaQuery
+        .of(context)
+        .size
+        .width <= 720) {
       return w720;
-    } else if (w1024 != null && MediaQuery.of(context).size.width <= 1024) {
+    } else if (w1024 != null && MediaQuery
+        .of(context)
+        .size
+        .width <= 1024) {
       return w1024;
-    } else if (w1200 != null && MediaQuery.of(context).size.width <= 1200) {
+    } else if (w1200 != null && MediaQuery
+        .of(context)
+        .size
+        .width <= 1200) {
       return w1200;
-    } else if (w1500 != null && MediaQuery.of(context).size.width <= 1500) {
+    } else if (w1500 != null && MediaQuery
+        .of(context)
+        .size
+        .width <= 1500) {
       return w1500;
-    } else if (w2000 != null && MediaQuery.of(context).size.width <= 2000) {
+    } else if (w2000 != null && MediaQuery
+        .of(context)
+        .size
+        .width <= 2000) {
       return w2000;
-    } else if (w2500 != null && MediaQuery.of(context).size.width <= 2500) {
+    } else if (w2500 != null && MediaQuery
+        .of(context)
+        .size
+        .width <= 2500) {
       return w2500;
     } else {
       return 12;
@@ -151,12 +237,16 @@ class Baseplate {
   }
 
   static calculateWidth(BuildContext context, int colWidth, [padding = 0]) {
-    var screenWidth = MediaQuery.of(context).size.width;
+    var screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     var fraction = colWidth / 12;
-    return (screenWidth - padding) * fraction;
+    return fraction;
+//    return (screenWidth - padding) * fraction;
   }
 
-  static Widget col({w360, w540, w720, w1024, w1200, w1500, w2000, w2500, Widget child, padding: 0}) {
+  static Widget col({w360, w540, w720, w1024, w1200, w1500, w2000, w2500, Widget child, padding: 0, int colCount, double gutter}) {
     return bpCol(
         w360: w360,
         w540: w540,
@@ -167,10 +257,12 @@ class Baseplate {
         w2000: w2000,
         w2500: w2500,
         child: child,
+        colCount: colCount,
+        gutter: gutter
     );
   }
 
-  static Widget row({double gutter = 0, double runSpacing = 0, @required List<bpCol> children}){
+  static Widget row({double gutter = 0, double runSpacing = 0, @required List<bpCol> children}) {
     return bpRow(children: children, gutter: gutter, runSpacing: runSpacing);
   }
 }
