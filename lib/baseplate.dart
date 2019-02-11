@@ -88,16 +88,16 @@ class bpCol extends StatelessWidget {
 class bpRow extends StatelessWidget {
 
   double gutter;
+  double padding;
   double runSpacing;
   List<bpCol> children;
 
-  bpRow({this.gutter = 0, this.runSpacing = 0, @required this.children});
+  bpRow({this.gutter = 0, this.runSpacing = 0, @required this.children, this.padding = 0});
 
   @override build(BuildContext context) {
     int colCount = 0;
     // what row am I on?
     // (tempColCount / 12).floor()
-    //
     Map<int, int> rowColCounts = new Map<int, int>();
 
     children.forEach((col) {
@@ -105,7 +105,7 @@ class bpRow extends StatelessWidget {
       // if there is only 1 child, the padding needs to be on both sides.
       if (children.length > 1) {
         if (colCount % 12 == 0 || colCount == 0) {
-          col.setLeftPadding(gutter);
+          col.setLeftPadding(padding);
         } else {
           col.setLeftPadding(gutter / 2);
         }
@@ -117,15 +117,15 @@ class bpRow extends StatelessWidget {
       // if the total count is a multiple of 12 AFTER the column width is added, it is at the END of the row.
       if (children.length > 1) {
         if (colCount % 12 == 0) {
-          col.setRightPadding(gutter);
+          col.setRightPadding(padding);
         } else {
           col.setRightPadding(gutter / 2);
         }
       }
 
       if (children.length == 1) {
-        col.setLeftPadding(gutter);
-        col.setRightPadding(gutter);
+        col.setLeftPadding(padding);
+        col.setRightPadding(padding);
       }
 
       if (children.length != 1 && colCount % 12 != 0 && initialColCount != 0) {
