@@ -1,6 +1,6 @@
 # baseplate
 
-A new Flutter package project.
+A responsive frontend material framework designed to emulate the behaviour of Bootstrap.
 
 ## Getting Started
 
