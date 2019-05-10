@@ -1,6 +1,6 @@
 # baseplate
 
-A new Flutter package project.
+A responsive frontend material framework designed to emulate the behaviour of Bootstrap.
 
 ## Getting Started
 
@@ -11,5 +11,7 @@ I've included lots of breakpoints to give as much freedom as possible. You don't
 It's a 12 column layout, similar to Bootstrap on the web.
 
 ![layout](https://i.imgur.com/RSK8mmp.png)
+
+Note: This example is outdated. Will be adding an updated version soon^tm
 
 ![code](https://i.imgur.com/75W8Cgd.png)
