@@ -100,9 +100,12 @@ class bpRow extends StatelessWidget {
     // (tempColCount / 12).floor()
     Map<int, int> rowColCounts = new Map<int, int>();
 
+    int i = 0;
     children.forEach((col) {
+      i++;
       // if the total count is a multiple of 12 (or 0) BEFORE the column width is added, it is at the start of the row
       // if there is only 1 child, the padding needs to be on both sides.
+
       if (children.length > 1) {
         if (colCount % 12 == 0 || colCount == 0) {
           col.setLeftPadding(padding);
@@ -128,7 +131,7 @@ class bpRow extends StatelessWidget {
         col.setRightPadding(padding);
       }
 
-      if (children.length != 1 && colCount % 12 != 0 && initialColCount != 0) {
+      if (children.length != 1 && colCount % 12 != 0 && initialColCount % 12 != 0 && initialColCount != 0) {
         col.setLeftPadding(gutter / 2);
         col.setRightPadding(gutter / 2);
       }
@@ -247,6 +250,7 @@ class Baseplate {
   }
 
   static Widget col({w360, w540, w720, w1024, w1200, w1500, w2000, w2500, Widget child, padding: 0, int colCount, double gutter}) {
+    print('Deprecation Notice: This method of calling Baseplate columns is deprecated and will be removed in a future version. Please use bpCol instead.');
     return bpCol(
         w360: w360,
         w540: w540,
@@ -263,6 +267,7 @@ class Baseplate {
   }
 
   static Widget row({double gutter = 0, double runSpacing = 0, @required List<bpCol> children}) {
+    print('Deprecation Notice: This method of calling Baseplate rows is deprecated and will be removed in a future version. Please use bpRow instead.');
     return bpRow(children: children, gutter: gutter, runSpacing: runSpacing);
   }
 }
