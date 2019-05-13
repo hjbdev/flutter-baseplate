@@ -228,46 +228,52 @@ class Baseplate {
 //    return (screenWidth - padding) * fraction;
   }
 
-  static Widget col(
-      {int w360,
-      int w540,
-      int w720,
-      int w1024,
-      int w1200,
-      int w1500,
-      int w2000,
-      int w2500,
-      Widget child,
-      double padding: 0,
-      int colCount,
-      double gutter}) {
+  static Widget col({
+    int w360,
+    int w540,
+    int w720,
+    int w1024,
+    int w1200,
+    int w1500,
+    int w2000,
+    int w2500,
+    Widget child,
+    double padding: 0,
+    int colCount,
+    BoxConstraints constraints,
+    double gutter,
+  }) {
     print(
         'Deprecation Notice: This method of calling Baseplate columns is deprecated and will be removed in a future version. Please use bpCol instead.');
     return bpCol(
-        w360: w360,
-        w540: w540,
-        w720: w720,
-        w1024: w1024,
-        w1200: w1200,
-        w1500: w1500,
-        w2000: w2000,
-        w2500: w2500,
-        child: child,
-        colCount: colCount,
-        gutter: gutter);
+      w360: w360,
+      w540: w540,
+      w720: w720,
+      w1024: w1024,
+      w1200: w1200,
+      w1500: w1500,
+      w2000: w2000,
+      w2500: w2500,
+      child: child,
+      colCount: colCount,
+      gutter: gutter,
+      constraints: constraints,
+    );
   }
 
-  static Widget row(
-      {double gutter = 0,
-      double runSpacing = 0,
-      @required List<bpCol> children,
-      BoxConstraints constraints}) {
+  static Widget row({
+    double gutter = 0,
+    double runSpacing = 0,
+    @required List<bpCol> children,
+    BoxConstraints constraints,
+  }) {
     print(
         'Deprecation Notice: This method of calling Baseplate rows is deprecated and will be removed in a future version. Please use bpRow instead.');
     return bpRow(
-        children: children,
-        gutter: gutter,
-        runSpacing: runSpacing,
-        constraints: constraints);
+      children: children,
+      gutter: gutter,
+      runSpacing: runSpacing,
+      constraints: constraints,
+    );
   }
 }
