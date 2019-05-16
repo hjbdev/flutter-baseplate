@@ -1,3 +1,7 @@
+## [0.1.3] - 13/05/2019
+
+* Added Support for `BoxConstraints` for when the widget will be less than the screen width on responsive layouts
+
 ## [0.1.2] - 06/02/2019
 
 * Added deprecation notice to Baseplate.row and Baseplate.col methods. Calling via bpRow and bpCol is preferred as these widgets _do_ appear in the inspector.
