@@ -1,3 +1,8 @@
+## [0.1.4] - 29/05/2019
+
+* Removed deprecated Baseplate class. Please now use bpRow and bpCol instead.
+* Support for max screen size added
+
 ## [0.1.3] - 13/05/2019
 
 * Added Support for `BoxConstraints` for when the widget will be less than the screen width on responsive layouts
